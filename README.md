@@ -32,15 +32,15 @@ The last session offers a teaser into some of the future directions of generativ
 
 This github contains lecture transcripts from the Kadenze videos and homeworks contained in Jupyter Notebooks in the following folders:
 
-| | Session | Description |
-| --- | --- | --- |
-|Installation| **[Installation](#installation-preliminaries)** | Setting up Python/Notebook and necessary Libraries. |
-|Preliminaries| **[Preliminaries with Python](session-0)** | Basics of working with Python and images. |
-|1| **[Computing with Tensorflow](session-1)** | Working with a small dataset of images.  Dataset preprocessing.  Tensorflow basics.  Sorting/organizing a dataset. |
-|2| **[Basics of Neural Networks](session-2)** | Learn how to create a Neural Network.  Learn to use a neural network to paint an image.  Apply creative thinking to the inputs, outputs, and definition of a network. |
-|3| **[Unsupervised and Supervised Learning](session-3)** | Build an autoencoder.  Extend it with convolution, denoising, and variational layers.  Build a deep classification network.  Apply softmax and onehot encodings to classify audio using a Deep Convolutional Network. |
-|4| **[Visualizing Representations](session-4)** | Visualize backpropped gradients, use them to create Deep Dream, extend Deep Dream w/ regularization.  Stylize images or synthesize new images with painterly or hallucinated aesthetics of another image. |
-|5| **[Generative Models](session-5)** | Build a Generative Adversarial Network and extend it with a Variational Autoencoder.  Use the latent space of this network to perform latent arithmetic.  Build a character level Recurrent Neural Network using LSTMs.  Understand different ways of inferring with Recurrent Networks.  |
+| | Session | Description | Transcript | Homework |
+| --- | --- | --- | --- | --- |
+|Installation| **[Installation](#installation-preliminaries)** | Setting up Python/Notebook and necessary Libraries. | N/A | N/A |
+|Preliminaries| **[Preliminaries with Python](session-0)** | Basics of working with Python and images. | N/A | N/A |
+|1| **[Computing with Tensorflow](session-1)** | Working with a small dataset of images.  Dataset preprocessing.  Tensorflow basics.  Sorting/organizing a dataset. | [lecture-1.ipynb](session-1/lecture-1.ipynb) | [session-1.ipynb](session-1/session-1.ipynb) |
+|2| **[Basics of Neural Networks](session-2)** | Learn how to create a Neural Network.  Learn to use a neural network to paint an image.  Apply creative thinking to the inputs, outputs, and definition of a network. | [lecture-2.ipynb](session-2/lecture-2.ipynb) | [session-2.ipynb](session-2/session-2.ipynb) |
+|3| **[Unsupervised and Supervised Learning](session-3)** | Build an autoencoder.  Extend it with convolution, denoising, and variational layers.  Build a deep classification network.  Apply softmax and onehot encodings to classify audio using a Deep Convolutional Network. | [lecture-3.ipynb](session-3/lecture-3.ipynb) | [session-3.ipynb](session-3/session-3.ipynb) |
+|4| **[Visualizing Representations](session-4)** | Visualize backpropped gradients, use them to create Deep Dream, extend Deep Dream w/ regularization.  Stylize images or synthesize new images with painterly or hallucinated aesthetics of another image. | [lecture-4.ipynb](session-4/lecture-4.ipynb) | [session-4.ipynb](session-4/session-4.ipynb) |
+|5| **[Generative Models](session-5)** | Build a Generative Adversarial Network and extend it with a Variational Autoencoder.  Use the latent space of this network to perform latent arithmetic.  Build a character level Recurrent Neural Network using LSTMs.  Understand different ways of inferring with Recurrent Networks.  | [lecture-5.ipynb](session-5/lecture-5.ipynb) | [session-5-part-1.ipynb](session-5/session-5-part-1.ipynb), [session-5-part-2.ipynb](session-5/session-5-part-2.ipynb) |
 
 <a name="installation-preliminaries"></a>
 # Installation Preliminaries
@@ -76,20 +76,16 @@ https://www.docker.com/products/docker-toolbox
 
 With this installed, you'll then need to run the "Docker Quickstart Terminal" which will launch a Terminal environment running on a virtual Linux machine on your computer. A virtual machine is basically an emulation of another machine. This is important because we'll use this machine to run Linux and install all of the necessary libraries for running Tensorflow.
 
-Note, if you have trouble launching the Docker Quickstart Terminal because you have "Hyper-V", try one of the following, as suggested by Danilo Gasques:
+Note, if you have trouble launching the Docker Quickstart Terminal because you have "Hyper-V", please instead try using https://docs.docker.com/docker-for-windows/.  Then launch the newly installed "Docker CLI" program.
 
-1) [Setting up a Windows boot option to run without Hyper-V](http://www.hanselman.com/blog/SwitchEasilyBetweenVirtualBoxAndHyperVWithABCDEditBootEntryInWindows81.aspx)
-
-2) [Running Docker on Windows with Hyper-V installed](http://jayvilalta.com/blog/2016/04/28/installing-docker-toolbox-on-windows-with-hyper-v-installed/)
-
-Once the Docker Quickstart Terminal is launched, run the following command (ignoring the `$` sign at the beginning of each line, which just denote that each line is a terminal command that you should type out exactly and then hit ENTER afterwards):
+Once the Terminal is launched, either via Docker CLI or Docker Quickstart Terminal, run the following command (ignoring the `$` sign at the beginning of each line, which just denote that each line is a terminal command that you should type out exactly and then hit ENTER afterwards):
 
 ```shell
 $ cd
 $ docker-machine ip
 ```
 
-You should see your virtual machine's IP address as a result of the last command.  This is the location of your virtual machine.  <b>NOTE THIS IP ADDRESS</b>, as we'll need it in a second.  
+If you are using Docker Toolbox, you should see your virtual machine's IP address as a result of the last command.  This is the location of your virtual machine.  <b>NOTE THIS IP ADDRESS</b>, as we'll need it in a second.  If you are using "Docker for Windows" instead, then you won't need this IP as we'll just use "localhost".
 
 This next command will move to your Windows home directory, then create a new directory called "tensorflow", and then print out what the full path to that directory is.  PLEASE NOTE DOWN THIS DIRECTORY.  This is where everything will happen, and I'll explain that in a minute.
 
@@ -105,7 +101,7 @@ Now run the following command, which will download about ~530 MB containing ever
 $ docker run -it -p 8888:8888 -p 6006:6006 -v /$(pwd)/tensorflow:/notebooks --name tf pkmital/tensorflow-python3-jupyter
 ```
 
-What this is doing is first creating a directory called tensorflow in the home directory, wherever that may be for your computer.  The echo command that we just ran, and I asked you note down, is showing you exactly where that directory is.  So on your Windows machine, you will want to put files inside this directory only when coding w/ Tensorflow.  We will use Docker to mirror that directory on a virutal machine which has everything necessary for us to code in Python and Tensorflow.  _Whatever is in that directory will be mirrored on the virtual machine's directory under `/notebooks`._
+What this is doing is first creating a directory called tensorflow in the home directory, wherever that may be for your computer.  The echo command that we just ran, and I asked you note down, is showing you exactly where that directory is.  So on your Windows machine, you will want to put files inside this directory only when coding w/ Tensorflow.  We will use Docker to mirror that directory on a virtual machine which has everything necessary for us to code in Python and Tensorflow.  _Whatever is in that directory will be mirrored on the virtual machine's directory under `/notebooks`._
 
 You can also try running the docker run command with any other directory. For instance:
 
@@ -439,6 +435,7 @@ Solution: Download the wheel manually via curl or wget, and pip install locally.
 If your have installed Docker Toolbox on Windows but your jupyter notebook doesn't run properly (the notebook kernel keeps busy all the time when you open any file) then you might need to try different browsers (One guy tried Edge and it solved his problem after struggling for long time on Chrome/Firefox).
 
 And you should also enable port forwarding by:
+
 1. Open VirtualBox
 2. Click on your default docker image.
 3. Click Settings.
